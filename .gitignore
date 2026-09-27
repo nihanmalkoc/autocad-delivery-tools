@@ -1,0 +1,16 @@
+# Real project settings stay on your machine
+config.local.json
+*.local.json
+
+# Drawings and AutoCAD side files
+*.dwg
+*.dwl
+*.dwl2
+*.bak
+*.tmp
+
+# Reports and run output
+*.xlsx
+*.csv
+out/
+work/

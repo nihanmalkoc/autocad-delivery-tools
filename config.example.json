@@ -1,0 +1,63 @@
+{
+  "accoreconsole": "C:\\Program Files\\Autodesk\\AutoCAD 2024\\accoreconsole.exe",
+  "projectRoot": "\\\\fileserver\\projects\\PRJ\\01_PRE\\01_AR",
+  "plotFolder": "03_PLOT_APP",
+  "baseFolder": "00_BC",
+  "parallel": 4,
+  "hangTimeoutMinutes": 5,
+
+  "outputFolders": ["DWG", "PDF"],
+  "bindOutputFolder": "DWG",
+  "excludeFolders": ["00_ARCHI*", "*OLD*", "R&D", "00_CLS"],
+
+  "naming": {
+    "xrefPrefix": "XR_",
+    "setFileRegex": "_(?<building>[A-Z0-9]{3})_(?<package>[A-Z]{3})_(?<level>[A-Z0-9]{4})_\\d{2}_\\d\\.dwg$",
+    "baseFileRegex": "^XR_[A-Z0-9]+_(?<building>[A-Z0-9]{3})_(?<type>.+)_(?<level>[A-Z0-9]{4})\\.dwg$",
+    "keepXrefRegex": "_Lay_A[0-9]\\.dwg$",
+    "examples": {
+      "Set drawing (AR)": "XR_PRJ_OFC_DRW_APP_AR_<building>_<package>_<level>_00_0.dwg  e.g. XR_PRJ_OFC_DRW_APP_AR_B01_PLN_G100_00_0.dwg",
+      "Set drawing (ID packages)": "XR_PRJ_OFC_DRW_APP_ID_<building>_<package>_<level>_00_0.dwg  e.g. XR_PRJ_OFC_DRW_APP_ID_B01_FFE_G100_00_0.dwg",
+      "Base drawing": "XR_PRJ_<building>_<type>_<level>.dwg  e.g. XR_PRJ_B01_RM_G100.dwg",
+      "Sheet border xref": "07_LAY\\XR_PRJ_APP_Lay_A1.dwg (A0/A1)",
+      "Bound delivery drawing": "<set folder>\\DWG\\<yyyyMMdd>\\PRJ_OFC_DRW_APP_AR_B01_PLN_G100_00_0.dwg"
+    }
+  },
+
+  "titleBlock": {
+    "block": "TITLEBLOCK",
+    "dateTag": "DATE",
+    "revisionTag": "REVNO",
+    "dateFormat": "dd.MM.yyyy"
+  },
+
+  "baseLocations": { "PLN": "03_PLN", "ID": "20_ID-FFE" },
+  "defaultBaseLocation": "PLN",
+  "typeAlternatives": { "FFE": ["FFE_2", "FFE2", "FFE"] },
+
+  "reportColumns": ["PLN", "ST", "FAC", "RM", "DIM", "DR", "FFE", "WET", "EXT"],
+  "extraInventoryColumns": ["DEP", "FLP", "RCP", "WCP", "WLP", "ID:FFE"],
+
+  "packages": {
+    "03_PLN": {
+      "own": "PLN",
+      "xrefs": ["PLN", "ST", "FAC", "RM", "DIM", "DR", "FFE", "WET", "EXT"],
+      "optional": ["EXT"],
+      "notes": "FFE: FFE_2 from the plan base folder when it exists, otherwise the old FFE."
+    },
+    "06_DEP": { "own": "DEP", "xrefs": ["PLN", "ST", "FAC", "RM", "DR", "DEP"] },
+    "09_RCP": { "own": "RCP", "xrefs": ["PLN", "ST", "FAC", "RM", "RCP"], "notes": "The RCP drawing has its own dimensions: no base DIM, no DR." },
+    "10_FLP": { "own": "FLP", "xrefs": ["PLN", "ST", "FAC", "RM", "DIM", "DR", "FLP"], "notes": "Base DIM only if the FLP drawing has no dimensions of its own." },
+    "11_WLP": { "own": "WLP", "xrefs": ["PLN", "ST", "FAC", "RM", "WLP"], "notes": "The WLP drawing has its own dimensions: no base DIM." },
+    "12_WCP": { "own": "WCP", "xrefs": ["PLN", "ST", "FAC", "RM", "WCP"], "notes": "The WCP drawing has its own dimensions: no base DIM." },
+    "20_ID-FFE": { "own": "ID:FFE", "xrefs": ["PLN", "ST", "FAC", "RM", "DR", "WET", "ID:FFE"], "notes": "FFE comes from the ID FFE base folder, not the plan FFE_2." }
+  },
+
+  "drawOrder": [ { "top": "DR", "above": ["PLN", "FAC"] } ],
+
+  "levelFolders": {
+    "B100": "B1", "SG00": "SG", "G100": "G1",
+    "L100": "L1", "L200": "L2", "L300": "L3", "L400": "L4",
+    "R100": "R1", "R200": "R2"
+  }
+}
